@@ -59,21 +59,21 @@ function openModal(e) {
   e.preventDefault();
   lightbox.classList.add(`is-open`);
   window.addEventListener(`keydown`, onEscClose);
+
   image.src = e.target.dataset.source;
   image.alt = e.target.alt;
 
-  // const source = images.find((item) => item.preview === e.target.src);
-
-  // const img = document.createElement("img");
-  // img.setAttribute("src", source.original);
-  // content.append(img);
-  // console.log(content);
+  if (e.target === e.currentTarget) {
+    onModalClose()
+  }
 }
 
 btn.addEventListener(`click`, onModalClose);
-function onModalClose() {
+function onModalClose(e) {
   lightbox.classList.remove(`is-open`);
-  window.removeEventListener(`keydown`, onEscClose);
+  image.src = "";
+  image.alt = "";
+ 
 }
 
 lightbox.addEventListener(`click`, onOverlayClose);
@@ -81,12 +81,9 @@ function onOverlayClose(e) {
   if (e.target.classList.contains(`lightbox__overlay`)) {
     lightbox.classList.remove(`is-open`);
   }
-  window.removeEventListener(`keydown`, onEscClose);
+  
 }
 
-
-
-window.addEventListener(`keydown`, onEscClose);
 function onEscClose(e) {
   // const condition = e.code === `Escape`;
   if (e.code === `Escape`) {
@@ -95,7 +92,5 @@ function onEscClose(e) {
   }
 }
 
-// function createElem(link) {
-//   const img = document.createElement('img')
-//   img.setAttribute('src', link)
-// }
+
+
