@@ -55,17 +55,20 @@ list.insertAdjacentHTML("afterbegin", markUp);
 // add eventListeners==================================================================================
 
 list.addEventListener(`click`, openModal);
+
+const checkClick = image.nodeName;
+
 function openModal(e) {
-  e.preventDefault();
-  lightbox.classList.add(`is-open`);
-  window.addEventListener(`keydown`, onEscClose);
 
-  image.src = e.target.dataset.source;
-  image.alt = e.target.alt;
+  if (e.target.nodeName === checkClick) {
+    e.preventDefault();
+    lightbox.classList.add(`is-open`);
+    window.addEventListener(`keydown`, onEscClose);
 
-  if (e.target === e.currentTarget) {
-    onModalClose()
+    image.src = e.target.dataset.source;
+    image.alt = e.target.alt;
   }
+  
 }
 
 btn.addEventListener(`click`, onModalClose);
@@ -73,24 +76,19 @@ function onModalClose(e) {
   lightbox.classList.remove(`is-open`);
   image.src = "";
   image.alt = "";
- 
+  window.removeEventListener(`keydown`, onEscClose);
 }
 
 lightbox.addEventListener(`click`, onOverlayClose);
 function onOverlayClose(e) {
   if (e.target.classList.contains(`lightbox__overlay`)) {
-    lightbox.classList.remove(`is-open`);
+    onModalClose();
   }
-  
 }
 
 function onEscClose(e) {
   // const condition = e.code === `Escape`;
   if (e.code === `Escape`) {
-    lightbox.classList.remove(`is-open`);
-    window.removeEventListener(`keydown`, onEscClose);
+    onModalClose();
   }
 }
-
-
-
